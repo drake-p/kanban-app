@@ -1,11 +1,13 @@
 import React from 'react';
 import uuid from 'uuid';
 
+import connect from '../libs/connect';
+
 import Notes from './Notes';
 import Message from './Message';
 
 // class-based component
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -83,3 +85,7 @@ export default class App extends React.Component {
     });
   }
 }
+
+export default connect(
+  () => ({test: 'test'})
+)(App);
