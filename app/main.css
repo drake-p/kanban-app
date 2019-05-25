@@ -8,10 +8,33 @@ body {
   font-weight: bold;
 }
 
-button,
-.add-note {
+.lanes {
+}
+
+.add-lane,
+.lane {
+  float: left;
+  margin: 10px;
+}
+
+.lane {
+  background-color: #eee;
+  padding: 1em;
+  border-radius: 0.5em;
+  box-shadow: inset 0 0 0.3em .03em rgba(0,0,0,.3);
+}
+
+.lane-header {
+  font-weight: bold;
+}
+
+button {
   background-color: #fdfdfd;
   border: 1px solid #ccc;
+}
+
+.lane-add-note {
+  /* float: right; */
 }
 
 .notes {
@@ -45,6 +68,7 @@ button,
 .note .editable {
   float: left;
 }
+
 .note .delete {
   float: right;
 
