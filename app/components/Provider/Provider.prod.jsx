@@ -5,7 +5,9 @@ import setup from './setup';
 
 setup(alt);
 
-export default ({children}) =>
+const Provider = ({children}) =>
   <AltContainer flux={alt}>
     {children}
   </AltContainer>
+
+export default Provider;

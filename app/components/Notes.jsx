@@ -4,7 +4,7 @@ import Note from './Note';
 import Editable from './Editable';
 
 // function-based component
-export default ({
+const Notes = ({
   notes,
   onNoteClick=() => {},
   onEdit=() => {},
@@ -25,3 +25,5 @@ export default ({
     </li>
   )}</ul>
 )
+
+export default Notes;

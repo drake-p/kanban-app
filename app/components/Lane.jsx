@@ -4,6 +4,7 @@ import uuid from 'uuid';
 import connect from '../libs/connect';
 
 import Notes from './Notes';
+import LaneHeader from './LaneHeader';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
 
@@ -39,9 +40,7 @@ const Lane = ({lane, notes, LaneActions, NoteActions, ...props}) => {
 
   return (
     <div {...props}>
-      <div className="lane-header">
-        <div className="lane-name">{lane.name}</div>
-      </div>
+      <LaneHeader lane={lane}/>
       <Notes
         notes={selectNotesById(notes, lane.notes)}
         onNoteClick={activateNoteEdit}
@@ -64,13 +63,6 @@ function selectNotesById(allNotes, noteIds = []) {
       allNotes.filter(note => note.id === id)
     )
   , []);
-  // let selectedNotes = [];
-  //
-  // return noteIds.reduce((runningNotes, id) =>
-  //   runningNotes.concat(
-  //     allNotes.filter(note => note.id === id)
-  //   )
-  //   , selectedNotes);
 }
 
 
