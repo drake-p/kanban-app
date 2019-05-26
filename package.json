@@ -59,7 +59,7 @@
     "alt-utils": "^2.0.0",
     "classnames": "^2.2.6",
     "react": "^15.1.0",
-    "react-dnd": "^7.4.5",
+    "react-dnd": "^3.0.2",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^15.1.0",
     "redux": "^4.0.1"

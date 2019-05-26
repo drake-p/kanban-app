@@ -1,9 +1,9 @@
 import React from 'react';
 import uuid from 'uuid';
 
-// import {compose} from` 'redux';
-// import {DragDropContext} from 'react-dnd';
-// import HTML5Backend from 'react-dnd-html5-backend';
+import {compose} from 'redux';
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import connect from '../libs/connect';
 
@@ -30,15 +30,15 @@ const App = ({LaneActions, lanes}) => {
 }
 
 
-// export default compose(
-//   DragDropContext(HTML5Backend),
-//   connect(
-//     ({lanes}) => ({lanes}),
-//     {LaneActions}
-//   )
-// )(App);
-
-export default connect(
-  ({lanes}) => ({lanes}),
-  {LaneActions}
+export default compose(
+  DragDropContext(HTML5Backend),
+  connect(
+    ({lanes}) => ({lanes}),
+    {LaneActions}
+  )
 )(App);
+
+// export default connect(
+//   ({lanes}) => ({lanes}),
+//   {LaneActions}
+// )(App);
