@@ -9,11 +9,13 @@ body {
 }
 
 .lanes {
+  overflow-x: scroll;
 }
 
 .add-lane,
 .lane {
-  float: left;
+  display: inline-block;
+  vertical-align: top;
   margin: 10px;
 }
 
@@ -22,26 +24,33 @@ body {
   padding: 1em;
   border-radius: 0.5em;
   box-shadow: inset 0 0 0.3em .03em rgba(0,0,0,.3);
+  width: 10em;
 }
 
 .lane-header {
+  overflow: auto;
   font-weight: bold;
+}
+
+.lane-delete {
+  float: right;
+  visibility: hidden;
+}
+
+.lane-header:hover .lane-delete {
+  visibility: visible;
 }
 
 button {
   background-color: #fdfdfd;
   border: 1px solid #ccc;
-}
-
-.lane-add-note {
-  /* float: right; */
+  cursor: pointer;
 }
 
 .notes {
-  margin: 0.5 em;
+  margin: 0.5em 0 0;
   padding-left: 0;
   list-style: none;
-  max-width: 10em;
 }
 
 .note {
@@ -81,6 +90,11 @@ button {
 
   visibility: hidden;
 }
+
 .note:hover .delete {
   visibility: visible;
+}
+
+.lane-add-note {
+  /* float: right; */
 }

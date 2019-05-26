@@ -15,15 +15,21 @@ export default class NoteStore {
   }
 
   update(updatedNote) {
-    this.setState({
-      notes: this.notes.map(note => {
-        if(note.id === updatedNote.id) {
-          return Object.assign({}, note, updatedNote);
-        }
+    // don't add empty notes
+    if(! (updatedNote.task || updatedNote.editing) ) {
+      this.delete(updatedNote.id);
+    }
+    else {
+      this.setState({
+        notes: this.notes.map(note => {
+          if(note.id === updatedNote.id) {
+            return Object.assign({}, note, updatedNote);
+          }
 
-        return note;
-      })
-    });
+          return note;
+        })
+      });
+    }
   }
 
   delete(id) {

@@ -10,8 +10,34 @@ export default class LaneStore {
   create(lane) {
     lane.notes = lane.notes || [];
 
+    // adds the new lane to the START of the list, rather than the end
     this.setState({
-      lanes: this.lanes.concat(lane)
+      lanes: this.lanes.reduce((reduced, lane) => {
+        return reduced.concat(lane);
+      }, [lane])
+    })
+
+    // alternatively, this will just concat to the end
+    // this.setState({
+    //   lanes: this.lanes.concat(lane)
+    // });
+  }
+
+  update(updatedLane) {
+    this.setState({
+      lanes: this.lanes.map(lane => {
+        if(lane.id === updatedLane.id) {
+          return Object.assign({}, lane, updatedLane);
+        }
+
+        return lane;
+      })
+    });
+  }
+
+  delete(laneId) {
+    this.setState({
+      lanes: this.lanes.filter(lane => lane.id !== laneId)
     });
   }
 
