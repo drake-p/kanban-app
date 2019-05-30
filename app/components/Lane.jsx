@@ -1,5 +1,8 @@
 import React from 'react';
 import uuid from 'uuid';
+import {compose} from 'redux';
+import {DropTarget} from 'react-dnd';
+import ItemTypes from '../constants/itemTypes';
 
 import connect from '../libs/connect';
 
@@ -8,7 +11,7 @@ import LaneHeader from './LaneHeader';
 import NoteActions from '../actions/NoteActions';
 import LaneActions from '../actions/LaneActions';
 
-const Lane = ({lane, notes, LaneActions, NoteActions, ...props}) => {
+const Lane = ({connectDropTarget, lane, notes, LaneActions, NoteActions, ...props}) => {
 
   const addNote = () => {
     const noteId = uuid.v4();
@@ -38,7 +41,7 @@ const Lane = ({lane, notes, LaneActions, NoteActions, ...props}) => {
     NoteActions.delete(id);
   };
 
-  return (
+  return connectDropTarget(
     <div {...props}>
       <LaneHeader lane={lane}/>
       <Notes
@@ -54,6 +57,20 @@ const Lane = ({lane, notes, LaneActions, NoteActions, ...props}) => {
   )
 };
 
+const noteTarget = {
+  hover(targetProps, monitor) {
+    const sourceProps = monitor.getItem();
+    const sourceId = sourceProps.id;
+
+    if (!targetProps.lane.notes.length) {
+      LaneActions.attachToLane({
+        laneId: targetProps.lane.id,
+        noteId: sourceId
+      });
+    }
+  }
+};
+
 // given an array of all note objects and an array of note ids
 // returns an array of note objects matching the given ids
 function selectNotesById(allNotes, noteIds = []) {
@@ -66,7 +83,12 @@ function selectNotesById(allNotes, noteIds = []) {
 }
 
 
-export default connect(
-  ({notes}) => ({notes}),
-  {NoteActions, LaneActions}
+export default compose(
+  DropTarget(ItemTypes.NOTE, noteTarget, connect => ({
+    connectDropTarget: connect.dropTarget()
+  })),
+  connect(
+    ({notes}) => ({notes}),
+    {NoteActions, LaneActions}
+  )
 )(Lane);

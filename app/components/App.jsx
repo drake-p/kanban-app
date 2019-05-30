@@ -10,7 +10,7 @@ import connect from '../libs/connect';
 import Lanes from './Lanes';
 import LaneActions from '../actions/LaneActions';
 
-console.log(React.version);
+console.log('React version', React.version);
 
 const App = ({LaneActions, lanes}) => {
   const addLane = () => {
@@ -23,7 +23,7 @@ const App = ({LaneActions, lanes}) => {
 
   return (
     <div>
-      <button className="add-lane" onClick={addLane}>+</button>
+      <button className="add-lane" onClick={addLane}>+ Add Lane</button>
       <Lanes lanes={lanes}/>
     </div>
   );
