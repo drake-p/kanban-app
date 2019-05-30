@@ -61,37 +61,48 @@ export default class LaneStore {
     });
   }
 
+  /* so this function has some issues.
+   * i think it'd be cool to implement a more intuitive dragndrop, i.e.
+   * where hovering over the top half of the target will insert the source above,
+   * and hovering over the bottom half of the target will insert below.
+   * that would involve altering the noteTarget function in ways i'm not 100% confident
+   * about yet, but could be a fun exercise.
+   * 'twould eliminate the weird case where we pass targetId = 0 to insert @ top of list.
+   */
   move({sourceId, targetId}) {
     const lanes = this.lanes;
 
     const sourceLane = lanes.filter(lane => lane.notes.includes(sourceId))[0];
-    const targetLane = lanes.filter(lane => lane.notes.includes(targetId))[0];
+    const targetLane = lanes.filter(lane => lane.notes.includes(targetId))[0]; // undef if targetId === 0
 
-    // okay the tutorial tells us to use yet another package for this but i feel like
-    // that's just an excuse to make us learn that package bc this works fine?
-    // like they want to use splice and that's neat and short but if you don't rely
-    // on index you don't have to import another entire damn package.
-    // i mean if you're already using the package elsewhere i guess it's nbd but i just
-    // i don't wanna.
+    // targetId of 0 means we're just moving an item to the top of its list.
+    // the tutorial does not consider this case but it was driving me crazy.
+    if (targetId === 0) {
+      sourceLane.notes.splice(sourceLane.notes.indexOf(sourceId), 1);
+      sourceLane.notes.unshift(sourceId);
 
-    // so here we rebuild the source lane's notes array but don't include the source note
-    sourceLane.notes = sourceLane.notes.reduce((reordered, noteId) => (
-      (noteId !== sourceId) ? reordered.concat([noteId]) : reordered
-    ), []);
+    } else {
 
-    // and here we rebuild the target lane's notes array with the source note following the target note
-    targetLane.notes = targetLane.notes.reduce((reordered, noteId) => (
-      (noteId === targetId) ? reordered.concat([noteId, sourceId]) : reordered.concat([noteId])
-    ), []);
+      // okay the tutorial tells us to use yet another package for this but i feel like
+      // that's just an excuse to make us learn that package bc this works fine?
+      // like they want to use splice and that's neat and short but if you don't rely
+      // on index you don't have to import another entire package.
+      // i mean if you're already using the package elsewhere i guess it's nbd but i just
+      // i don't wanna.
 
-    // idk that seems nicer to me than the garbo if statement in the tutorial, and there's
-    // no way it's more intensive or harder to read bc that package syntax!! is rough! buddy!
-    // and who fucking knows what all that's doing under the hood!
+      // so here we rebuild the source lane's notes array without the source note
+      sourceLane.notes = sourceLane.notes.reduce((reordered, noteId) => (
+        (noteId !== sourceId) ? reordered.concat([noteId]) : reordered
+      ), []);
+
+      // and here we rebuild the target lane's notes array with the source note following the target note
+      targetLane.notes = targetLane.notes.reduce((reordered, noteId) => (
+        (noteId === targetId) ? reordered.concat([noteId, sourceId]) : reordered.concat([noteId])
+      ), []);
+    }
 
     // also fun fact if you omit this.setState() the thing runs anyway. i think it's an object
     // pointer situation that updates the lanes prop, but i'm not sure why the app would re-render without setState
     this.setState({lanes});
-
-    // i don't really like this tutorial very much.
   }
 }
